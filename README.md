@@ -75,6 +75,7 @@ All available API endpoints with their methods and descriptions.
 | GET    | /countries/:name | Retrieves a single country |
 | POST   | /countries       | Creates a new country      |
 | DELETE | /countries/:name | Deletes a country          |
+| PATCH  | /countries/:name | Updates a country          |
 
 ## Get all countries
 
@@ -112,3 +113,28 @@ A successful response will return a JSON array of countries objects, similar to 
   }
 ]
 ```
+
+To update a country with name=Brazil, you can use the following `PATCH` request and change the JSON body content:
+
+`GET /countries/name`
+
+`curl -X GET http://localhost:<port>/countries/name`
+
+### Example Response
+
+A successful response will return an updated JSON array of countries objects, similar to the following:
+
+```json
+{
+  "country_id": 1,
+  "name": "Brazil",
+  "capital": "Rio",
+  "population": 44444,
+  "languages": "English",
+  "fun_fact": "Brazil is the fifth largest country in the world by both land area and population.",
+  "map_image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/1200px-Flag_of_Brazil.svg.png"
+}
+```
+
+
+Add a second table in the database that should be linked to the country table using foreign keys with the associated controllers, models and routes

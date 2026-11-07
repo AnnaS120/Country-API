@@ -1,8 +1,9 @@
 const db = require('../db/connect')
 
 class Country {
-    constructor({country_id, name, capital, population, languages, fun_fact, map_image_url}){
+    constructor({country_id, president_id, name, capital, population, languages, fun_fact, map_image_url}){
         this.country_id = country_id
+        this.president_id = president_id
         this.name = name
         this.capital = capital
         this.population = population
@@ -41,7 +42,7 @@ class Country {
         const existingCountry = await db.query('SELECT name FROM country WHERE LOWER(name) = LOWER($1);', [name])
 
         if (existingCountry.rows.length === 0){
-            let response = await db.query('INSERT INTO country (name, capital. population, languages) VALUES ($1, $2 , $3, $4) RETURNING *;',
+            let response = await db.query('INSERT INTO country (name, capital, population, languages) VALUES ($1, $2 , $3, $4) RETURNING *;',
                 [name, capital, population, languages])
 
                 return new Country(response.rows[0])
@@ -57,11 +58,26 @@ class Country {
             )
             return new Country(response.rows[0])
         }
+
+        async update(data){
+            const name = data.name || this.name
+            const capital = data.capital || this.capital
+            const population = data.population || this.population
+            const languages = data.languages || this.languages
+            
+            
+            const response = await db.query('UPDATE country SET name = $1, capital = $2, population = $3, languages = $4 WHERE country_id = $5 RETURNING *;',
+                [name, capital, population, languages, this.country_id]
+       )
+       
+       return new Country(response.rows[0])
+    }
+
+
     }
 
 
 
- 
     
 
 
